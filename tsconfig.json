@@ -27,7 +27,8 @@
       "@vaadin/flow-frontend": ["generated/jar-resources"],
       "@vaadin/flow-frontend/*": ["generated/jar-resources/*"],
       "Frontend/*": ["*"]
-    }
+    },
+    "allowImportingTsExtensions": true,
   },
   "include": ["frontend/**/*", "types.d.ts"],
   "exclude": ["frontend/generated/jar-resources/**"]
