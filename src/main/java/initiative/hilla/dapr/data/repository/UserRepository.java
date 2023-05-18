@@ -1,4 +1,4 @@
-package initiative.hilla.dapr.data.service;
+package initiative.hilla.dapr.data.repository;
 
 import initiative.hilla.dapr.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

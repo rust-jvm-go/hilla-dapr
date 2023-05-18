@@ -6,6 +6,7 @@ import LoginView from 'Frontend/views/login/LoginView.js';
 import MainLayout from 'Frontend/views/MainLayout.js';
 import { lazy } from 'react';
 import { createBrowserRouter, IndexRouteObject, NonIndexRouteObject, useMatches } from 'react-router-dom';
+import TaskView from "Frontend/views/todo/TaskView.js";
 
 const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));
 export type MenuProps = Readonly<{
@@ -47,6 +48,7 @@ export const routes: readonly ViewRouteObject[] = [
         handle: { icon: 'globe-solid', title: 'Hello Hila Dapr', requiresLogin: true },
       },
       { path: '/about', element: <AboutView />, handle: { icon: 'file', title: 'About', requiresLogin: true } },
+      { path: '/tasks', element: <TaskView />, handle: { icon: 'file', title: 'Tasks', requiresLogin: true } },
     ],
   },
   { path: '/login', element: <LoginView />, handle: { icon: 'null', title: 'Login', requiresLogin: true } },

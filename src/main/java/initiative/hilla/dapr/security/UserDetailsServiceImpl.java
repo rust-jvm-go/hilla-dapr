@@ -1,7 +1,7 @@
 package initiative.hilla.dapr.security;
 
 import initiative.hilla.dapr.data.entity.User;
-import initiative.hilla.dapr.data.service.UserRepository;
+import initiative.hilla.dapr.data.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 

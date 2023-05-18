@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,17 +31,35 @@ public class SecurityConfiguration extends VaadinWebSecurity {
     }
 
     @Override
+    protected void configure(WebSecurity web) throws Exception {
+        web
+            .ignoring()
+            // H2 console; TODO: remove later
+            .requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
+
+        super.configure(web);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/images/*.png")).permitAll();
-        // Icons from the line-awesome addon
-        http.authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/line-awesome/**/*.svg")).permitAll();
+        http
+            .authorizeHttpRequests()
+            .requestMatchers(new AntPathRequestMatcher("/images/*.png")).permitAll()
+            // Icons from the line-awesome addon
+            .requestMatchers(new AntPathRequestMatcher("/line-awesome/**/*.svg")).permitAll()
+            // H2 console; TODO: remove later
+            .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/connect/**")).authenticated();
 
         super.configure(http);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         setLoginView(http, "/login");
-        setStatelessAuthentication(http, new SecretKeySpec(Base64.getDecoder().decode(authSecret), JwsAlgorithms.HS256),
-                "initiative.hilla.dapr");
+
+        setStatelessAuthentication(
+            http,
+            new SecretKeySpec(Base64.getDecoder().decode(authSecret), JwsAlgorithms.HS256),
+            "initiative.hilla.dapr");
     }
 }

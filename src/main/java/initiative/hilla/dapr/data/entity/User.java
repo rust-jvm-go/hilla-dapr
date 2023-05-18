@@ -3,17 +3,12 @@ package initiative.hilla.dapr.data.entity;
 import initiative.hilla.dapr.data.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.hilla.Nonnull;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.Hibernate;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -22,6 +17,12 @@ public class User extends AbstractEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7185965496313317908L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Nonnull
     private String username;
@@ -35,7 +36,16 @@ public class User extends AbstractEntity implements Serializable {
     private Set<Role> roles;
     @Lob
     @Column(length = 1000000)
-    private byte @Nonnull [] profilePicture;
+    private byte @Nonnull []profilePicture;
+
+    public Long getId() {
+        return id;
+    }
+
+    public User setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getUsername() {
         return username;
@@ -64,8 +74,23 @@ public class User extends AbstractEntity implements Serializable {
     public byte @Nonnull [] getProfilePicture() {
         return profilePicture;
     }
-    public void setProfilePicture(byte @Nonnull [] profilePicture) {
+    public void setProfilePicture(byte @Nonnull []profilePicture) {
         this.profilePicture = profilePicture;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(id, user.id) &&
+            Objects.equals(version, user.version) &&
+            Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, version, name);
+    }
 }

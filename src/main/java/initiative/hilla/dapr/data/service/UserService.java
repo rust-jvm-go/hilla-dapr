@@ -3,6 +3,7 @@ package initiative.hilla.dapr.data.service;
 import initiative.hilla.dapr.data.entity.User;
 import java.util.Optional;
 
+import initiative.hilla.dapr.data.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,5 +39,4 @@ public class UserService {
     public int count() {
         return (int) repository.count();
     }
-
 }

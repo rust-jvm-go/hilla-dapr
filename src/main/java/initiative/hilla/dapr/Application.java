@@ -1,6 +1,6 @@
 package initiative.hilla.dapr;
 
-import initiative.hilla.dapr.data.service.UserRepository;
+import initiative.hilla.dapr.data.repository.UserRepository;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 import javax.sql.DataSource;

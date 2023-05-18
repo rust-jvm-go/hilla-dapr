@@ -1,7 +1,7 @@
 package initiative.hilla.dapr.security;
 
 import initiative.hilla.dapr.data.entity.User;
-import initiative.hilla.dapr.data.service.UserRepository;
+import initiative.hilla.dapr.data.repository.UserRepository;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import java.util.Optional;
 
