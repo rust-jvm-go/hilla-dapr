@@ -1,5 +1,6 @@
 package initiative.hilla.dapr.data.entity;
 
+import dev.hilla.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -26,6 +27,7 @@ public class Task extends AbstractEntity implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Nonnull
     private String description;
 
     private boolean isDone;

@@ -13,7 +13,6 @@ export default function TaskView() {
     TaskEndpoint.findAll().then(setTasks);
   }, []);
 
-
   async function addTask() {
     const saved = await TaskEndpoint.add(description);
     if (saved) {

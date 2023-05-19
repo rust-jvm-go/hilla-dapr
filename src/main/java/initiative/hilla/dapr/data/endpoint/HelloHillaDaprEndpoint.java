@@ -1,4 +1,4 @@
-package initiative.hilla.dapr.endpoints.hellohilladapr;
+package initiative.hilla.dapr.data.endpoint;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;

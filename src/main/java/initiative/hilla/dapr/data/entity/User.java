@@ -4,14 +4,21 @@ import initiative.hilla.dapr.data.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.hilla.Nonnull;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "application_user")
 public class User extends AbstractEntity implements Serializable {
 
@@ -26,57 +33,21 @@ public class User extends AbstractEntity implements Serializable {
 
     @Nonnull
     private String username;
+
     @Nonnull
     private String name;
+
     @JsonIgnore
     private String hashedPassword;
+
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @Nonnull
     private Set<Role> roles;
+
     @Lob
     @Column(length = 1000000)
     private byte @Nonnull []profilePicture;
-
-    public Long getId() {
-        return id;
-    }
-
-    public User setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-    public Set<Role> getRoles() {
-        return roles;
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-    public byte @Nonnull [] getProfilePicture() {
-        return profilePicture;
-    }
-    public void setProfilePicture(byte @Nonnull []profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 
     @Override
     public boolean equals(Object o) {

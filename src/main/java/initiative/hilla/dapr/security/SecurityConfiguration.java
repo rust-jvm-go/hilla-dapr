@@ -43,18 +43,21 @@ public class SecurityConfiguration extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-            .authorizeHttpRequests()
+        http.authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
             .requestMatchers(new AntPathRequestMatcher("/images/*.png")).permitAll()
             // Icons from the line-awesome addon
             .requestMatchers(new AntPathRequestMatcher("/line-awesome/**/*.svg")).permitAll()
             // H2 console; TODO: remove later
             .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/connect/**")).authenticated();
+            .requestMatchers(new AntPathRequestMatcher("/connect/**")).authenticated()
+        );
 
         super.configure(http);
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
         setLoginView(http, "/login");
 
         setStatelessAuthentication(
