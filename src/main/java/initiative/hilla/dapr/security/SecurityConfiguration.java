@@ -49,7 +49,7 @@ public class SecurityConfiguration extends VaadinWebSecurity {
             .requestMatchers(new AntPathRequestMatcher("/line-awesome/**/*.svg")).permitAll()
             // H2 console; TODO: remove later
             .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/connect/**")).authenticated()
+            .requestMatchers(new AntPathRequestMatcher("/connect/**")).permitAll()
         );
 
         super.configure(http);
