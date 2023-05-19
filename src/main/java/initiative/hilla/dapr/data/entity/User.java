@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.hilla.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
 import java.io.Serial;
@@ -12,22 +13,25 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "application_user")
-public class User extends AbstractEntity implements Serializable {
+@Accessors(fluent = true, chain = true)
+@Entity(name = User.ENTITY_NAME)
+@Table(name = User.TABLE_NAME)
+public class User extends SuperclassEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7185965496313317908L;
 
+    public static final String ENTITY_NAME = "User";
+    public static final String TABLE_NAME = "application_user";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TABLE_NAME+"_seq")
+    @SequenceGenerator(name = TABLE_NAME+"_gen", allocationSize = 1)
+    @Column(name = SuperclassEntity.COLUMN_ID_NAME, nullable = false)
     private Long id;
 
     @Nonnull
@@ -39,9 +43,8 @@ public class User extends AbstractEntity implements Serializable {
     @JsonIgnore
     private String hashedPassword;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
     @Nonnull
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @Lob
@@ -54,7 +57,7 @@ public class User extends AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         if (Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return getId() != null && Objects.equals(id, user.id) &&
+        return id() != null && Objects.equals(id, user.id) &&
             Objects.equals(version, user.version) &&
             Objects.equals(name, user.name);
     }

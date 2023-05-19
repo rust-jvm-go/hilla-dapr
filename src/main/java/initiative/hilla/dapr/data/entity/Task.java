@@ -3,28 +3,32 @@ package initiative.hilla.dapr.data.entity;
 import dev.hilla.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class Task extends AbstractEntity implements Serializable {
+@Accessors(fluent = true, chain = true)
+@Entity(name = Task.ENTITY_NAME)
+@Table(name = Task.TABLE_NAME)
+public class Task extends SuperclassEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -2757138126491869483L;
 
+    public static final String ENTITY_NAME = "Task";
+    public static final String TABLE_NAME = "task";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_id_seq")
-    @SequenceGenerator(name = "task_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TABLE_NAME+"_seq")
+    @SequenceGenerator(name = TABLE_NAME+"_gen", allocationSize = 1)
+    @Column(name = SuperclassEntity.COLUMN_ID_NAME, nullable = false)
     private Long id;
 
     @Nonnull

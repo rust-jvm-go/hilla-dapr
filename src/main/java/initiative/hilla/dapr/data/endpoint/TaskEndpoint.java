@@ -1,6 +1,7 @@
 package initiative.hilla.dapr.data.endpoint;
 
 import dev.hilla.Endpoint;
+import initiative.hilla.dapr.data.Role;
 import initiative.hilla.dapr.data.entity.Task;
 import initiative.hilla.dapr.data.repository.TaskRepository;
 import jakarta.annotation.security.RolesAllowed;
@@ -9,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Endpoint
-@RolesAllowed({"ADMIN", "USER"})
+@RolesAllowed(value = { Role.ADMIN_VALUE, Role.USER_VALUE })
 @RequiredArgsConstructor
 public class TaskEndpoint {
 
@@ -21,9 +22,8 @@ public class TaskEndpoint {
 
     public Task add(String description) {
 
-        Task todo = Task.builder()
-            .description(description)
-            .build();
+        Task todo = new Task()
+            .description(description);
 
         return taskRepository.save(todo);
     }
